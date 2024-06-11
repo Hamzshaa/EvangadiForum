@@ -10,7 +10,7 @@ export function applyStyleForCodes(input) {
   replacedString = replacedString
     .split(">>>")
     .join(
-      `</span><pre><code style="display: block;  margin-top: 10px; background-color: #ccc; color: #000; padding: 4px 8px; border-radius: 4px; font-family: 'Courier New', monospace; width: fit-content;">`
+      `</span><pre><code style="display: block;  margin-top: 10px; background-color: #ccc; color: #000; padding: 4px 8px; border-radius: 4px; font-family: 'Courier New', monospace; min-width: fit-content; width: 100%;">`
     );
   replacedString = replacedString.split("<<<").join("</code></pre>");
   return (

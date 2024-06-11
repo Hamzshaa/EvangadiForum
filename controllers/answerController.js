@@ -41,7 +41,7 @@ export const getAnswers = async (req, res) => {
     [req.params.questionId]
   );
 
-  answers.sort((a, b) => a.id < b.id);
+  answers.sort((a, b) => b.answerid - a.answerid);
 
   res.send(answers);
 };

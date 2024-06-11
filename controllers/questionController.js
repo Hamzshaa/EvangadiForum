@@ -1,16 +1,28 @@
 import { dbConn } from "../db/dbConfig.js";
+import generateUniqueId from "generate-unique-id";
 
 export const postQuestion = async (req, res) => {
-  console.log(req.body);
   if (!req.body.title || !req.body.description) {
     return res.status(400).send("Title and description are required");
   }
 
+  const questionId = generateUniqueId({
+    length: 20,
+  });
+
+  console.log(questionId);
+
   let response = null;
   if (req.body.tag) {
     const [question] = await dbConn.query(
-      "INSERT INTO questions (title, description, tag, userid) VALUES (?,?,?,?)",
-      [req.body.title, req.body.description, req.body.tag, req.user.userid]
+      "INSERT INTO questions (title, description, tag, userid, questionid) VALUES (?,?,?,?,?)",
+      [
+        req.body.title,
+        req.body.description,
+        req.body.tag,
+        req.user.userid,
+        questionId,
+      ]
     );
     response = question;
   } else {
@@ -30,6 +42,7 @@ export const postQuestion = async (req, res) => {
 
 export const getQuestions = async (req, res) => {
   const [questions] = await dbConn.query("SELECT * FROM questions");
+  questions.sort((a, b) => b.id - a.id);
   res.send(questions);
 };
 

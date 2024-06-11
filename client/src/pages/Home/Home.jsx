@@ -3,7 +3,7 @@ import axios from "../../axiosConfig";
 import { AppState } from "../../App";
 import styles from "./home.module.css";
 import { Link } from "react-router-dom";
-import QuestionCard from "./QuestionCard/QuestionCard";
+import QuestionCard from "../../components/QuestionCard/QuestionCard";
 import { IoSearch } from "react-icons/io5";
 
 export default function Home() {

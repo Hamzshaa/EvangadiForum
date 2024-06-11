@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "../../axiosConfig";
 import styles from "./singleQuestion.module.css";
 import { useContext, useEffect, useState } from "react";
-import AnswerCard from "./AnswerCard/AnswerCard";
+import AnswerCard from "../../components/AnswerCard/AnswerCard";
 import { AppState } from "../../App";
 import { applyStyleForCodes } from "../../util/applyStyleForCodes";
 

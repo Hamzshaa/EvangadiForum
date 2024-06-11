@@ -1,7 +1,7 @@
 import propTypes from "prop-types";
 import styles from "./answerCard.module.css";
 import { BsPersonCircle } from "react-icons/bs";
-import { applyStyleForCodes } from "../../../util/applyStyleForCodes";
+import { applyStyleForCodes } from "../../util/applyStyleForCodes";
 
 export default function AnswerCard({ answer, isLast }) {
   console.log(answer);

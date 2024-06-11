@@ -63,7 +63,7 @@ export default function AskQuestion() {
       </div>
 
       <div className={styles.askQuestion}>
-        <h2>Answer The Top Question</h2>
+        <h2>Ask Question</h2>
         <p>
           <Link to="/">Go to Question page</Link>
         </p>
@@ -89,7 +89,7 @@ export default function AskQuestion() {
             ></div>
           </div>
           <textarea
-            placeholder="Your Answer..."
+            placeholder="Your description here..."
             name="description"
             onChange={handleChange}
             value={input?.description}
