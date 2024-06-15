@@ -45,10 +45,10 @@ export const register = async (req, res) => {
 
   res.send({ username, firstname, lastname, email, password });
 };
-console.log("Here is userController.js");
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log("Here is login controller");
+
   if (!email || !password) {
     return res.status(400).json({ message: "Please fill all fields" });
   }
