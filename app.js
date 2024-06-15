@@ -9,6 +9,8 @@ import path from "path";
 
 const app = express();
 
+console.log("here is app.js");
+
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => console.log("mongoDB connected"))
