@@ -16,7 +16,7 @@ mongoose
 
 const __dirname = path.resolve();
 
-app.use(cors());
+app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
