@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-// import axios from "../../axiosConfig";
 import axios from "axios";
 import styles from "./askQuestion.module.css";
 import { useState } from "react";

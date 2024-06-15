@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-// import axios from "../../axiosConfig";
 import axios from "axios";
 import styles from "./register.module.css";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";

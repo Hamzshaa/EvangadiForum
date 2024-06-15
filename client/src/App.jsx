@@ -3,7 +3,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-// import axios from "./axiosConfig";
 import axios from "axios";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";

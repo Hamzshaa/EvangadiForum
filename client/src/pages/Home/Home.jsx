@@ -1,5 +1,4 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-// import axios from "../../axiosConfig";
 import axios from "axios";
 import { AppState } from "../../App";
 import styles from "./home.module.css";

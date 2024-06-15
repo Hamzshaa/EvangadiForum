@@ -1,5 +1,4 @@
 import { Link, useParams } from "react-router-dom";
-// import axios from "../../axiosConfig";
 import axios from "axios";
 import styles from "./singleQuestion.module.css";
 import { useContext, useEffect, useState } from "react";
