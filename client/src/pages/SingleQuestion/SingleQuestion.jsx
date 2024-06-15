@@ -22,7 +22,7 @@ export default function SingleQuestion() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        setQuestion(data[0]);
+        setQuestion(data);
       } catch (error) {
         console.log(error);
       }
