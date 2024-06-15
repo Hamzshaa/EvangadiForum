@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "../../axiosConfig";
+// import axios from "../../axiosConfig";
+import axios from "axios";
 import styles from "./login.module.css";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
@@ -24,7 +25,7 @@ export default function Login() {
     }
 
     try {
-      const { data, status } = await axios.post("/users/login", inputs);
+      const { data, status } = await axios.post("/api/users/login", inputs);
       if (status === 200) {
         localStorage.setItem("token", data.token);
         navigate("/");

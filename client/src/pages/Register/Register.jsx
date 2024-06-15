@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "../../axiosConfig";
+// import axios from "../../axiosConfig";
+import axios from "axios";
 import styles from "./register.module.css";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
@@ -26,7 +27,7 @@ export default function Register() {
     }
 
     try {
-      const res = await axios.post("/users/register", inputs);
+      const res = await axios.post("/api/users/register", inputs);
 
       if (res.status === 201) {
         navigate("/login");

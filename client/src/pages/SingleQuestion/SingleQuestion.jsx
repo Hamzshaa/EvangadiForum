@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
-import axios from "../../axiosConfig";
+// import axios from "../../axiosConfig";
+import axios from "axios";
 import styles from "./singleQuestion.module.css";
 import { useContext, useEffect, useState } from "react";
 import AnswerCard from "../../components/AnswerCard/AnswerCard";
@@ -17,7 +18,7 @@ export default function SingleQuestion() {
   useEffect(() => {
     async function fetchQuestion() {
       try {
-        const { data } = await axios.get(`/questions/${questionId}`, {
+        const { data } = await axios.get(`/api/questions/${questionId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -34,7 +35,7 @@ export default function SingleQuestion() {
   useEffect(() => {
     async function fetchAnswers() {
       try {
-        const { data } = await axios.get(`/answers/${questionId}`, {
+        const { data } = await axios.get(`/api/answers/${questionId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -57,7 +58,7 @@ export default function SingleQuestion() {
   }, [questionId]);
 
   const getUsername = async (userId) => {
-    const res = await axios.get(`/users/${userId}`);
+    const res = await axios.get(`/api/users/${userId}`);
     return res.data.username;
   };
 
@@ -74,7 +75,7 @@ export default function SingleQuestion() {
 
     try {
       const { status, data } = await axios.post(
-        `/answers/${questionId}`,
+        `/api/answers/${questionId}`,
         {
           answer,
         },

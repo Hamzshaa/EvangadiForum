@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import axios from "../../axiosConfig";
+// import axios from "../../axiosConfig";
+import axios from "axios";
 import { AppState } from "../../App";
 import styles from "./home.module.css";
 import { Link } from "react-router-dom";
@@ -14,7 +15,7 @@ export default function Home() {
 
   const fetchQuestions = useCallback(async () => {
     try {
-      const { data } = await axios.get("/questions", {
+      const { data } = await axios.get("/api/questions", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -38,7 +39,7 @@ export default function Home() {
   }, [fetchQuestions]);
 
   const getUsername = async (userId) => {
-    const res = await axios.get(`/users/${userId}`);
+    const res = await axios.get(`/api/users/${userId}`);
     return res.data.username;
   };
 
@@ -51,11 +52,14 @@ export default function Home() {
     }
 
     try {
-      const { data } = await axios.get(`/questions/search/${e.target.value}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const { data } = await axios.get(
+        `/api/questions/search/${e.target.value}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       const updatedQuestions = await Promise.all(
         data.map(async (question) => {

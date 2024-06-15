@@ -9,6 +9,8 @@ import path from "path";
 
 const app = express();
 
+console.log("here is app.js");
+
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => console.log("mongoDB connected"))
@@ -30,7 +32,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(5000, () => {
+  console.log("Server is running on port 5000");
 });

@@ -3,7 +3,8 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-import axios from "./axiosConfig";
+// import axios from "./axiosConfig";
+import axios from "axios";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import SingleQuestion from "./pages/SingleQuestion/SingleQuestion";
@@ -22,7 +23,7 @@ function App() {
     }
 
     try {
-      const { data } = await axios.get("/users/check", {
+      const { data } = await axios.get("/api/users/check", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
