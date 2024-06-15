@@ -42,7 +42,7 @@ export default function SingleQuestion() {
 
         const updatedAnswers = await Promise.all(
           data.map(async (question) => {
-            const username = await getUsername(question.userid);
+            const username = await getUsername(question.userId);
             return { ...question, username };
           })
         );
@@ -58,7 +58,7 @@ export default function SingleQuestion() {
 
   const getUsername = async (userId) => {
     const res = await axios.get(`/users/${userId}`);
-    return res.data[0].username;
+    return res.data.username;
   };
 
   const handleSubmit = async (e) => {

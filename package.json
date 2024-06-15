@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js",
+    "start": "node app.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "author": "Hamza",
   "license": "ISC",
@@ -16,6 +18,6 @@
     "express": "^4.19.2",
     "generate-unique-id": "^2.0.3",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.9.7"
+    "mongoose": "^8.4.1"
   }
 }

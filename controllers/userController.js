@@ -1,24 +1,23 @@
-import { dbConn } from "../db/dbConfig.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import User from "../models/user.model.js";
 
 dotenv.config();
 
 export const register = async (req, res) => {
   const { username, firstname, lastname, email, password } = req.body;
 
+  console.log(req.body);
+
   if (!email || !password || !firstname || !lastname || !username) {
     return res.status(400).json({ message: "Please fill all fields" });
   }
 
   try {
-    const [user] = await dbConn.query(
-      "SELECT username, userid FROM users WHERE email = ? OR username = ?",
-      [email, username]
-    );
+    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
 
-    if (user.length > 0) {
+    if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
 
@@ -28,12 +27,15 @@ export const register = async (req, res) => {
         .json({ message: "Password should be at least 6 characters" });
     }
 
-    const hashedPassword = bcrypt.hashSync(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    await dbConn.query(
-      "INSERT INTO users (username, firstname, lastname, email, password) VALUES (?,?,?,?,?)",
-      [username, firstname, lastname, email, hashedPassword]
-    );
+    await User.create({
+      username,
+      firstname,
+      lastname,
+      email,
+      password: hashedPassword,
+    });
 
     return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -52,27 +54,25 @@ export const login = async (req, res) => {
   }
 
   try {
-    const [user] = await dbConn.query("SELECT * FROM users WHERE email = ?", [
-      email,
-    ]);
+    const user = await User.findOne({ email });
 
-    if (user.length === 0) {
+    if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const isMatch = bcrypt.compareSync(password, user[0].password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     const token = jwt.sign(
-      { userid: user[0].userid, username: user[0].username },
+      { userid: user._id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
 
-    return res.status(200).json({ token, username: user[0].username });
+    return res.status(200).json({ token, username: user.username });
   } catch (error) {
     console.error("Login controller error: ", error.message);
     return res.status(500).json({ message: "Server error" });
@@ -86,13 +86,18 @@ export const checkUser = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  const [user] = await dbConn.query("SELECT * FROM users WHERE userid = ?", [
-    req.params.userId,
-  ]);
+  try {
+    const user = await User.findById(req.params.userId);
 
-  if (user.length === 0) {
-    return res.status(404).send("User not found");
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const { password, ...rest } = user._doc;
+
+    res.send(rest);
+  } catch (error) {
+    console.error("Get user controller error: ", error.message);
+    return res.status(500).json({ message: "Server error" });
   }
-
-  res.send(user);
 };

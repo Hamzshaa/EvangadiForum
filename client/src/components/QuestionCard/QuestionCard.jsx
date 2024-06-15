@@ -7,6 +7,9 @@ import { useState } from "react";
 
 export default function QuestionCard({ question, isLast }) {
   const [showDescription, setShowDescription] = useState(false);
+
+  // console.log(question?._id);
+
   return (
     <div className={`${styles.Container}  ${!isLast && styles.border}`}>
       <div key={question?.id} className={`${styles.question}`}>
@@ -20,7 +23,7 @@ export default function QuestionCard({ question, isLast }) {
             {question?.title}
           </Link> */}
           <Link
-            to={`/question/${question?.id}`}
+            to={`/question/${question?._id}`}
             className={styles.title}
             dangerouslySetInnerHTML={{
               __html: question?.title,
@@ -33,7 +36,7 @@ export default function QuestionCard({ question, isLast }) {
           }`}
           onClick={() => setShowDescription(!showDescription)}
         />
-        <Link to={`/question/${question?.id}`} className={styles.view}>
+        <Link to={`/question/${question?._id}`} className={styles.view}>
           read more
         </Link>
       </div>

@@ -20,11 +20,9 @@ export default function Home() {
         },
       });
 
-      console.log(data);
-
       const updatedQuestions = await Promise.all(
         data.map(async (question) => {
-          const username = await getUsername(question.userid);
+          const username = await getUsername(question.userId);
           return { ...question, username };
         })
       );
@@ -41,7 +39,7 @@ export default function Home() {
 
   const getUsername = async (userId) => {
     const res = await axios.get(`/users/${userId}`);
-    return res.data[0].username;
+    return res.data.username;
   };
 
   const handleSearch = async (e) => {
@@ -61,7 +59,7 @@ export default function Home() {
 
       const updatedQuestions = await Promise.all(
         data.map(async (question) => {
-          const username = await getUsername(question.userid);
+          const username = await getUsername(question.userId);
           return { ...question, username };
         })
       );

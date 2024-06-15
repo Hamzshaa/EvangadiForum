@@ -1,47 +1,50 @@
-import { dbConn } from "../db/dbConfig.js";
+import Answer from "../models/answer.model.js";
+import Question from "../models/question.model.js";
 
 export const postAnswer = async (req, res) => {
-  const [question] = await dbConn.query(
-    "SELECT * FROM questions WHERE id = ?",
-    [req.params.questionId]
-  );
+  try {
+    const question = await Question.findById(req.params.questionId);
 
-  if (question.length === 0) {
-    return res.status(404).send("Question not found");
+    if (!question) {
+      return res.status(404).send("Question not found");
+    }
+
+    if (!req.body.answer) {
+      return res.status(400).send("Answer is required");
+    }
+
+    const answer = await Answer.create({
+      answer: req.body.answer,
+      questionId: req.params.questionId,
+      userId: req.user.userid,
+    });
+
+    if (!answer) {
+      return res.status(500).send("Failed to post answer");
+    }
+
+    res.status(201).send("Answer posted");
+  } catch (error) {
+    console.error("Post answer error: ", error.message);
+    return res.status(500).send("Server error");
   }
-
-  if (!req.body.answer) {
-    return res.status(400).send("Answer is required");
-  }
-
-  const [answer] = await dbConn.query(
-    "INSERT INTO answers (answer, questionid, userid) VALUES (?,?,?)",
-    [req.body.answer, req.params.questionId, req.user.userid]
-  );
-
-  if (answer.length === 0) {
-    return res.status(500).send("Failed to post answer");
-  }
-
-  res.status(201).send("Answer posted");
 };
 
 export const getAnswers = async (req, res) => {
-  const [question] = await dbConn.query(
-    "SELECT * FROM questions WHERE id = ?",
-    [req.params.questionId]
-  );
+  try {
+    const question = await Question.findById(req.params.questionId);
 
-  if (question.length === 0) {
-    return res.status(404).send("Question not found");
+    if (!question) {
+      return res.status(404).send("Question not found");
+    }
+
+    const answers = await Answer.find({
+      questionId: req.params.questionId,
+    }).sort({ _id: -1 });
+
+    res.send(answers);
+  } catch (error) {
+    console.error("Get answers error: ", error.message);
+    return res.status(500).send("Server error");
   }
-
-  const [answers] = await dbConn.query(
-    "SELECT * FROM answers WHERE questionid = ?",
-    [req.params.questionId]
-  );
-
-  answers.sort((a, b) => b.answerid - a.answerid);
-
-  res.send(answers);
 };
