@@ -53,7 +53,7 @@ export default function AskQuestion() {
   return (
     <div className={styles.container}>
       <div className={styles.guide}>
-        <h2>Answer From the Community</h2>
+        <h2>Steps to write a good question</h2>
         <ul>
           <li>Summerize your problem in a one-line title.</li>
           <li>Describe your problem in more detail.</li>
