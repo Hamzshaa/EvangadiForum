@@ -5,12 +5,14 @@ import styles from "./home.module.css";
 import { Link } from "react-router-dom";
 import QuestionCard from "../../components/QuestionCard/QuestionCard";
 import { IoSearch } from "react-icons/io5";
+import { FaRegHeart } from "react-icons/fa";
 
 export default function Home() {
   const {
     user: { username },
   } = useContext(AppState);
   const [questions, setQuestions] = useState([]);
+  const [isFetchingFavorite, setIsFetchingFavorite] = useState(false);
 
   const fetchQuestions = useCallback(async () => {
     try {
@@ -81,6 +83,34 @@ export default function Home() {
     }
   };
 
+  const handleFavoritesClick = async () => {
+    if (!isFetchingFavorite) {
+      try {
+        const { data } = await axios.get("/questions/favorite", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        const updatedQuestions = await Promise.all(
+          data.map(async (question) => {
+            const username = await getUsername(question.userid);
+            return { ...question, username };
+          })
+        );
+
+        setQuestions(updatedQuestions);
+
+        setIsFetchingFavorite(true);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      fetchQuestions();
+      setIsFetchingFavorite(false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.welcomeWrapper}>
@@ -94,6 +124,14 @@ export default function Home() {
         <div className={styles.searchWrapper}>
           <p>Questions</p>
           <form onSubmit={handleSearch}>
+            <div
+              className={styles.favorites}
+              style={{ background: isFetchingFavorite && "orange" }}
+              onClick={handleFavoritesClick}
+            >
+              <FaRegHeart />
+              Favorites
+            </div>
             <input
               type="text"
               placeholder="Search Questions"
@@ -117,6 +155,8 @@ export default function Home() {
               key={question.id}
               question={question}
               isLast={index == questions.length - 1}
+              setQuestions={setQuestions}
+              isFetchingFavorite={isFetchingFavorite}
             />
           ))}
         </div>

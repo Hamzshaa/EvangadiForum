@@ -49,6 +49,12 @@
   font-weight: 500;
 }
 
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .title {
   font-size: 1.5rem;
   font-weight: 600;
